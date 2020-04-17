@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img {
+    image-rendering: crisp-edges;
+    width: 28cm;    margin: 0.5cm;
+}
+html {
+    background: gray;
+}
+body {
+    position: absolute;
+    background: white;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+    font-family: inherit;
+}
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+@media screen {
+    html, body {
+        width: 210mm;
+        /*height: 297mm;*/
+    }
+}
+</style>
+</head>
+<body><img src="./out.jpg"></body></html>
