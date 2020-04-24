@@ -20,4 +20,6 @@ _deps
 /cv/aruco/calibrate_camera_charuco
 /cv/aruco/create_board_charuco
 /cv/aruco/create_board_charuco.cpp
+/cv/aruco/out.jpg
 
+/cv/calibration/calib_imgs/*.jpg
