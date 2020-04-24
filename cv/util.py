@@ -51,7 +51,7 @@ html, body {
     file.write(data)
     file.close()
 
-def get_calibration(filename):
+def get_calibration(filename, new=None):
     camera_params = cv.FileStorage(filename, cv.FileStorage_READ)
     camera_matrix_node = camera_params.getNode('camera_matrix').getNode('data')
     distortion_coefficients_node = camera_params.getNode('distortion_coefficients').getNode('data')
@@ -59,5 +59,28 @@ def get_calibration(filename):
     distortion_coefficients = np.array([distortion_coefficients_node.at(i).real() for i in range(5)])
     w = int(camera_params.getNode('image_width').real())
     h = int(camera_params.getNode('image_height').real())
-    newcameramtx, roi = cv.getOptimalNewCameraMatrix(camera_matrix, distortion_coefficients, (w,h), 1, (w,h))
+    if new != None:
+        newcameramtx, roi = cv.getOptimalNewCameraMatrix(camera_matrix, distortion_coefficients, (w,h), 1, new)
+    else:
+        newcameramtx, roi = cv.getOptimalNewCameraMatrix(camera_matrix, distortion_coefficients, (w,h), 1, (w,h))
     return (camera_matrix,distortion_coefficients,newcameramtx,roi)
+
+
+def unit_vector(vector):
+    """ Returns the unit vector of the vector.  """
+    return vector / np.linalg.norm(vector)
+
+def angle_between(v1, v2):
+    """ Returns the angle in radians between vectors 'v1' and 'v2'::
+
+            >>> angle_between((1, 0, 0), (0, 1, 0))
+            1.5707963267948966
+            >>> angle_between((1, 0, 0), (1, 0, 0))
+            0.0
+            >>> angle_between((1, 0, 0), (-1, 0, 0))
+            3.141592653589793
+    """
+    v1_u = unit_vector(v1)
+    v2_u = unit_vector(v2)
+    d = np.dot(v1_u, v2_u)
+    return np.arccos(np.clip(d, -1.0, 1.0))
